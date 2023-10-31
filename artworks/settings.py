@@ -81,15 +81,9 @@ WSGI_APPLICATION = 'artworks.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default":{     
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "artworks",
-        "USER": "ubuntu",
-        "PASSWORD": "thisissomeseucrepassword",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+    "default": env.db(),
     }
-}
+
 # AUTH_USER_MODEL = 'collection.User'
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
