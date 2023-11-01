@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
-import random
-from collection.models import Artwork
+from random import choice  # Importa la función "choice" de la biblioteca random
+from .models import Artwork
+
 
 def register(request):
     if request.method == 'POST':
@@ -24,9 +25,8 @@ def register(request):
 
 
 def index(request):
-    count = Artwork.objects.count()
-    random_artwork = None
-    if count > 0:
-        random_index = random.randint(0, count - 1)
-        random_artwork = Artwork.objects.all()[random_index]
-    return render(request, 'collection/index.html', {'artwork': random_artwork})
+    # Obtiene todas las obras de arte
+    artworks = Artwork.objects.all()
+    # Selecciona una obra de arte al azar
+    random_artwork = choice(artworks)
+    return render(request, 'collection/index.html', {'random_artwork': random_artwork})
