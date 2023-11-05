@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.postgres.search import SearchVectorField
+
 
 
 class Artist(models.Model):
@@ -28,3 +30,4 @@ class Artwork(models.Model):
     period = models.ForeignKey(Period, null=True, on_delete=models.RESTRICT)
     genre = models.ForeignKey(Genre, null=True, on_delete=models.RESTRICT)
     image_url = models.URLField()
+    search_vector = SearchVectorField(null=True)

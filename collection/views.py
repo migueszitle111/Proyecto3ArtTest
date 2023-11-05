@@ -2,8 +2,28 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
-from random import choice  # Importa la función "choice" de la biblioteca random
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+
+from random import choice  
 from .models import Artwork
+
+def search(request):
+    query = request.GET.get('q', '')
+
+    if query:
+        artworks = Artwork.objects.annotate(
+            search=SearchVector('title', 'author__name', 'style__name', 'genre__name')
+        ).filter(search=SearchQuery(query))
+
+        # Puedes ordenar los resultados por relevancia si lo deseas
+        artworks = artworks.annotate(
+            rank=SearchRank(SearchVector('title', 'author__name', 'style__name', 'genre__name'), SearchQuery(query))
+        ).order_by('-rank')
+
+    else:
+        artworks = Artwork.objects.all()
+
+    return render(request, 'collection/index.html', {'artworks': artworks, 'query': query})
 
 
 def register(request):
