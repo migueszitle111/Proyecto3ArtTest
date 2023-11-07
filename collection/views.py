@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-
+import random
 from random import choice  
 from .models import Artwork
 
@@ -46,7 +46,9 @@ def register(request):
 
 def index(request):
     # Obtiene todas las obras de arte
-    artworks = Artwork.objects.all()
+    artworks = list(Artwork.objects.all())
+    random_artwork = []
     # Selecciona una obra de arte al azar
-    random_artwork = choice(artworks)
+    if artworks:
+        random_artwork = random.sample(artworks, 12)
     return render(request, 'collection/index.html', {'random_artwork': random_artwork})
