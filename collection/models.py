@@ -30,7 +30,11 @@ class Artwork(models.Model):
     genre = models.ForeignKey(Genre, null=True, on_delete=models.RESTRICT)
     image_url = models.URLField()
     search_vector = SearchVectorField(null=True)
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 7319c5da81f72dc190835af6321b03b6d1a6cee3
 class Collection(models.Model):
     owner = models.ForeignKey(User, on_delete=models.RESTRICT)
     artworks = models.ManyToManyField(Artwork)
