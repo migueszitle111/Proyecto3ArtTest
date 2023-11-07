@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-
+import random
 from random import choice  
 from .models import Artwork
 
@@ -15,7 +15,6 @@ def search(request):
             search=SearchVector('title', 'author__name', 'style__name', 'genre__name')
         ).filter(search=SearchQuery(query))
 
-        # Puedes ordenar los resultados por relevancia si lo deseas
         artworks = artworks.annotate(
             rank=SearchRank(SearchVector('title', 'author__name', 'style__name', 'genre__name'), SearchQuery(query))
         ).order_by('-rank')
@@ -43,10 +42,16 @@ def register(request):
 
     return render(request, 'registration/registration_form.html', {'form': f})
 
+def artwork(request, artwork_id):
+
+    artwork = Artwork.objects.get(pk=artwork_id)
+
+    return render(request, 'collection/artwork.html', {'artwork': artwork})
 
 def index(request):
-    # Obtiene todas las obras de arte
-    artworks = Artwork.objects.all()
-    # Selecciona una obra de arte al azar
-    random_artwork = choice(artworks)
-    return render(request, 'collection/index.html', {'random_artwork': random_artwork})
+    artworks = list(Artwork.objects.all())
+    random_works = []
+    if artworks:
+        random_works = random.sample(artworks, 12)
+
+    return render(request, 'collection/index.html', {'artworks': random_works})

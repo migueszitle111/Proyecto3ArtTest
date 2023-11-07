@@ -6,16 +6,16 @@
 {% block title %}{% trans "Register for an account" %}{% endblock %}
 
 {% block content %}
-<div class="flex min-h-full justify-center py-10 px-4 sm:px-6 lg:px-8">
+<div class="flex min-h-full justify-center py-10 px-4 sm:px-6 lg:px-8  bg-slate-200">
     <div class="border shadow-md rounded-xl px-8 pt-6 pb-8 mb-4 flex flex-col">
-        <div class="mt-6 text-left text-3xl font-bold text-white">
+        <div class="mt-6 text-left text-3xl font-bold text-black">
             Regístrate
         </div>
         <form method="post" action="/accounts/register/">
             {% csrf_token %}
             <div class="mb-3">
                 <label for="{{form.username.id_for_label}}"
-                    class="block mt-3 text-white">{{form.username.label}}</label>
+                    class="block mt-3 text-black">{{form.username.label}}</label>
                 {{form.username}}
                 {% for error in form.username.errors %}
                 <div class="text-red-500">{{error}}</div>
@@ -32,17 +32,18 @@
             </div>
             <div class="mb-3">
                 <label for="{{form.password1.id_for_label}}"
-                    class="block mt-3 text-white">{{form.password1.label}}</label>
+                    class="block mt-3 text-black">{{form.password1.label}}</label>
                 {{form.password1}}
                 {% for error in form.password1.errors %}
                 <div class="text-red-500">{{error}}</div>
                 {% endfor %}
-                <h3 class="text-sm text-gray-500">Mínimo 8 caracteres, debe incluir alguna letra, que no sea muy común o
+                <h3 class="text-sm text-gray-500">Mínimo 8 caracteres, debe incluir alguna letra, que no sea muy
+                    común o
                     incluya información personal.</h3>
             </div>
             <div class="mb-3">
                 <label for="{{form.password2.id_for_label}}"
-                    class="block mt-3 text-white">{{form.password2.label}}</label>
+                    class="block mt-3 text-black">{{form.password2.label}}</label>
                 {{form.password2}}
                 {% for error in form.password2.errors %}
                 <div class="text-red-500">{{error}}</div>

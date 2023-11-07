@@ -1,24 +1,13 @@
 {% extends "collection/base.html" %}
-
 {% block content %}
-<div class="flex justify-center md:mx-auto md:max-w-screen-2xl px-2">
-  <div class="w-32 md:w-3/4 lg:w-2/3">
-    {% if user.is_authenticated %}
-    <form action="{% url 'search' %}" method="GET" class="my-4">
-      <div class="flex items-center bg-white border rounded-lg shadow-sm">
-        <input type="text" name="q" value="{{ query }}" placeholder="Buscar obras de arte"
-          class="w-full py-2 px-4 rounded-l focus:outline-none focus:ring focus:border-sky-300">
-        <button type="submit" class="bg-sky-500 text-black py-2 px-4 rounded-r hover:bg-sky-700">Buscar</button>
-      </div>
-    </form>
-    {% endif %}
-
+<div class="flex justify-center md:mx-auto md:max-w-screen-2xl px-2  bg-slate-200">
+  <div class="w-full md:w-3/4 lg:w-2/3">
     {% if artworks %}
-    <h2 class="text-2xl font-semibold mt-4 text-white">Resultados de la búsqueda:</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <br>
+    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {% for artwork in artworks %}
-      <div class="bg-white rounded-lg shadow-md p-4">
-        <img src="{{ artwork.image_url }}" alt="{{ artwork.title }}" class="w-32 h-32">
+      <div class="bg-white rounded-lg shadow-md p-6  transform scale-100 hover:scale-110 transition-transform">
+        <img src="{{ artwork.image_url }}" alt="{{ artwork.title }}" class="w-full h-3/4 object-cover">
         <h2 class="text-xl font-semibold mt-2">{{ artwork.title }}</h2>
         <p class="text-sm text-gray-600">Artista: {{ artwork.author.name }}</p>
         <p class="text-sm text-gray-600">Estilo: {{ artwork.style.name }}</p>
@@ -27,21 +16,6 @@
       {% endfor %}
     </div>
     {% else %}
-    <p class="text-xl mt-4">No se encontraron resultados para la búsqueda "{{ query }}"</p>
-    {% endif %}
-
-    {% if user.is_authenticated %}
-    <div class="mt-4 bg-slate-200 border-l-4 border-slate-500 text-slate-700 p-6 rounded-lg shadow-md">
-      <p class="text-2xl font-semibold">Hola {{ user.username }}</p>
-      <p class="text-lg">Aquí podrás ver muchas pinturas.</p>
-      <p class="text-2xl"><a class="text-sky-600" href="/accounts/logout">Termina la sesión</a></p>
-    </div>
-    {% else %}
-    <div class="mt-4 bg-slate-200 border-l-4 border-slate-500 text-slate-700 p-6 rounded-lg shadow-md">
-      <p class="text-2xl font-semibold">Hola</p>
-      <p class="text-lg">Por favor <a class="text-sky-600 font-semibold" href="/accounts/login">inicia sesión</a> para
-        ver esta página.</p>
-    </div>
     {% endif %}
   </div>
 </div>

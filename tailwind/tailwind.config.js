@@ -4,6 +4,10 @@ module.exports = {
   theme: {
     extend: {},
   },
+  variants: {
+    extend: {
+      scale: ['hover'],
+    },
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
