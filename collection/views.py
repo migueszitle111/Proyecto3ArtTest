@@ -49,19 +49,9 @@ def artwork(request, artwork_id):
     return render(request, 'collection/artwork.html', {'artwork': artwork})
 
 def index(request):
-<<<<<<< HEAD
     artworks = list(Artwork.objects.all())
     random_works = []
     if artworks:
         random_works = random.sample(artworks, 12)
 
     return render(request, 'collection/index.html', {'artworks': random_works})
-=======
-    # Obtiene todas las obras de arte
-    artworks = list(Artwork.objects.all())
-    random_artwork = []
-    # Selecciona una obra de arte al azar
-    if artworks:
-        random_artwork = random.sample(artworks, 12)
-    return render(request, 'collection/index.html', {'random_artwork': random_artwork})
->>>>>>> 7319c5da81f72dc190835af6321b03b6d1a6cee3
