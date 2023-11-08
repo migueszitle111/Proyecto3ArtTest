@@ -6,12 +6,12 @@
     <br>
     <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {% for artwork in artworks %}
-      <div class="bg-white rounded-lg shadow-md p-6  transform scale-100 hover:scale-110 transition-transform">
+      <div class="rounded-lg shadow-md p-6  transform scale-100 hover:scale-110 transition-transform  bg-slate-300 ">
         <img src="{{ artwork.image_url }}" alt="{{ artwork.title }}" class="w-full h-3/4 object-cover">
         <h2 class="text-xl font-semibold mt-2">{{ artwork.title }}</h2>
-        <p class="text-sm text-gray-600">Artista: {{ artwork.author.name }}</p>
-        <p class="text-sm text-gray-600">Estilo: {{ artwork.style.name }}</p>
-        <p class="text-sm text-gray-600">Género: {{ artwork.genre.name }}</p>
+        <p class="text-sm text-gray-600 object-cover">Artista: {{ artwork.author.name }}</p>
+        <p class="text-sm text-gray-600 object-cover">Estilo: {{ artwork.style.name }}</p>
+        <p class="text-sm text-gray-600 object-cover">Género: {{ artwork.genre.name }}</p>
       </div>
       {% endfor %}
     </div>
