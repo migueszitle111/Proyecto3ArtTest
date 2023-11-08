@@ -1,4 +1,6 @@
 {% extends "collection/base.html" %}
+
+
 {% block content %}
 <div class="flex justify-center md:mx-auto md:max-w-screen-2xl px-2  bg-slate-200">
   <div class="w-full md:w-3/4 lg:w-2/3">
@@ -6,7 +8,8 @@
     <br>
     <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {% for artwork in artworks %}
-      <div class="rounded-lg shadow-md p-6 transform scale-100 hover:scale-110 transition-transform bg-slate-300">
+      <div
+        class="rounded-lg shadow-md p-6 transform scale-100 hover:scale-110 transition-transform bg-slate-300 shadow-outline">
         <a href="/artwork/{{artwork.id}}"> <!-- Agregamos el enlace aquí -->
           <img src="{{ artwork.image_url }}" alt="{{ artwork.title }}" class="w-full h-3/4 object-cover">
         </a>
@@ -15,11 +18,14 @@
         <p class="text-sm text-gray-600 truncate">Estilo: {{ artwork.style.name }}</p>
         <p class="text-sm text-gray-600 truncate">Género: {{ artwork.genre.name }}</p>
       </div>
+
       {% endfor %}
     </div>
-    {% else %}
+    <div hx-get="{% url 'random_artworks' %}" hx-trigger="revealed" hx-swap="beforeend" hx-boost>
+    </div>
     {% endif %}
   </div>
+
 </div>
 
-{% endblock %}
+{% endblock content %}

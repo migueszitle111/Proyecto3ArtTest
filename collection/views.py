@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
+from django.template.loader import render_to_string
 import random
 from random import choice  
 from .models import Artwork
+
 
 def search(request):
     query = request.GET.get('q', '')
@@ -55,3 +57,10 @@ def index(request):
         random_works = random.sample(artworks, 12)
 
     return render(request, 'collection/index.html', {'artworks': random_works})
+
+def random_artworks(request):
+    artworks = list(Artwork.objects.all())
+    random_works = []
+    if artworks:
+        random_works = random.sample(artworks, 24)
+    return render(request, 'collection/artworks_random.html', {'artworks': random_works})
