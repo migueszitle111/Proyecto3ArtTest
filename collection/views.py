@@ -64,3 +64,5 @@ def random_artworks(request):
     if artworks:
         random_works = random.sample(artworks, 24)
     return render(request, 'collection/artworks_random.html', {'artworks': random_works})
+
+
