@@ -55,7 +55,6 @@ def index(request):
     random_works = []
     if artworks:
         random_works = random.sample(artworks, 12)
-
     return render(request, 'collection/index.html', {'artworks': random_works})
 
 def random_artworks(request):
@@ -64,5 +63,3 @@ def random_artworks(request):
     if artworks:
         random_works = random.sample(artworks, 24)
     return render(request, 'collection/artworks_random.html', {'artworks': random_works})
-
-
