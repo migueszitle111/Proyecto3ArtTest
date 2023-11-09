@@ -57,10 +57,3 @@ def index(request):
         random_works = random.sample(artworks, 12)
 
     return render(request, 'collection/index.html', {'artworks': random_works})
-
-def random_artworks(request):
-    artworks = list(Artwork.objects.all())
-    random_works = []
-    if artworks:
-        random_works = random.sample(artworks, 24)
-    return render(request, 'collection/artworks_random.html', {'artworks': random_works})
