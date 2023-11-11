@@ -4,29 +4,43 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.template.loader import render_to_string
+from django.contrib.postgres import search 
+from django.core.paginator import Paginator
 import random
-from random import choice  
-from .models import Artwork
+from .models import Artwork, Collection
+from .forms import CollectionForm
 
 
-def search(request):
-    query = request.GET.get('q', '')
+def search_artworks(request):
+    query_param = request.GET.get('q', '')
+    artworks = []
 
-    if query:
-        artworks = Artwork.objects.annotate(
-            search=SearchVector('title', 'author__name', 'style__name', 'genre__name')
-        ).filter(search=SearchQuery(query))
+    if query_param:
+        vector = (
+            search.SearchVector("title", weight="A")
+            + search.SearchVector("author__name", weight="B")
+            + search.SearchVector("style__name", weight="C")
+            + search.SearchVector("genre__name", weight="C")
+        )
+        query = search.SearchQuery(query_param, search_type="websearch")
+        artworks = (
+            Artwork.objects.annotate(
+                search=vector,
+                rank=search.SearchRank(vector, query),
+            )
+            .filter(search=query)
+            .order_by("-rank")
+        )
 
-        artworks = artworks.annotate(
-            rank=SearchRank(SearchVector('title', 'author__name', 'style__name', 'genre__name'), SearchQuery(query))
-        ).order_by('-rank')
+        paginator = Paginator(artworks, 3)
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
 
+        return render(request, 'collection/artwork_search.html', {'artworks': artworks, 'search_value': query_param, "page_obj": page_obj})
     else:
-        artworks = Artwork.objects.all()
+        return render(request, 'collection/index.html', {'artworks': [], 'search_value': None})
 
-    return render(request, 'collection/index.html', {'artworks': artworks, 'query': query})
-
-
+    
 def register(request):
     if request.method == 'POST':
         f = UserCreationForm(request.POST)
@@ -63,3 +77,33 @@ def random_artworks(request):
     if artworks:
         random_works = random.sample(artworks, 24)
     return render(request, 'collection/artworks_random.html', {'artworks': random_works})
+
+
+def collections(request):
+    collections = Collection.objects.filter(owner=request.user)
+    return render(request, 'collection/collections.html',
+                  {'collections': collections})
+    
+def collection_list(request):
+    collections = Collection.objects.filter(owner=request.user)
+    return render(request, 'collection/collection_list.html',
+                  {'collections': collections})
+    
+def collection_add(request):
+    form = None
+    if request.method == 'POST':
+        form = CollectionForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            description = form.cleaned_data['description']
+            collection = Collection(
+                    name=name,
+                    description=description,
+                    owner=request.user)
+            collection.save()
+            return HttpResponse(status=204,
+                                headers={'HX-Trigger': 'listChanged'})
+
+    return render(request,
+                  'collection/collection_form.html',
+                  {'form': form})

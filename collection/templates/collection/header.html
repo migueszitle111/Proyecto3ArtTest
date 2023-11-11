@@ -8,16 +8,20 @@
             </div>
             <div class="hidden lg:ml-6 lg:flex lg:space-x-8">
                <a href="/"
-                  class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Ver
-                  mis colecciones</a>
-               <a href="#"
-                  class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Mis
+                  class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">Principal
+               </a>
+               <a href="/collections" class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  {% if request.path == '/collections/' %}
+                  border-sky-600 
+                  {% else %} 
+                  border-transparent
+                  {% endif %}
+   ">Mis
                   Colecciones</a>
             </div>
          </div>
          <div class="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
             <div class="w-full max-w-lg lg:max-w-xs">
-               <form action="{% url 'search' %}" method="GET" class="mb-3">
+               <form action="/artworks/search" method="GET" class="mb-3">
                   <label for="q" class="sr-only">Buscar</label>
                   <div class="relative">
                      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">

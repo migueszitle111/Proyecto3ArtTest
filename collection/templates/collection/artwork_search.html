@@ -1,0 +1,50 @@
+{% extends "collection/base.html" %}
+{% block content %}
+<div class="flex justify-center md:mx-auto md:max-w-screen-2xl px-2  bg-slate-200">
+    <div class="w-full md:w-3/4 lg:w-2/3">
+        {% if artworks %}
+        <br>
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for artwork in page_obj %}
+            <div
+                class="rounded-lg shadow-md p-6 transform scale-100 hover:scale-110 transition-transform bg-slate-300 shadow-outline">
+                <a href="/artwork/{{artwork.id}}">
+                    <img src="{{ artwork.image_url }}" alt="{{ artwork.title }}" class="w-full h-3/4 object-cover">
+                </a>
+                <h2 class="text-xl font-semibold mt-2 truncate">{{ artwork.title }}</h2>
+                <p class="text-sm text-gray-600 truncate">Artista: {{ artwork.author.name }}</p>
+                <p class="text-sm text-gray-600 truncate">Estilo: {{ artwork.style.name }}</p>
+                <p class="text-sm text-gray-600 truncate">Género: {{ artwork.genre.name }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-8"
+            aria-label="Pagination">
+            <div class="hidden sm:block">
+                <p class="text-sm text-gray-700">
+                    Showing page
+                    <span class="font-medium">{{ page_obj.number }}</span>
+                    of
+                    <span class="font-medium">{{ page_obj.paginator.num_pages }}</span>
+                </p>
+            </div>
+            <div class="flex flex-1 justify-between sm:justify-end">
+                {% if page_obj.has_previous %}
+                <a href="?q={{ search_value|stringformat:'s'}}&page={{ page_obj.previous_page_number }}"
+                    class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0">Previous</a>
+                {% endif %}
+                {% if page_obj.has_next %}
+                <a href="?q={{ search_value|stringformat:'s'}}&page={{ page_obj.next_page_number }}"
+                    class="relative ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus-visible:outline-offset-0">Next</a>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
+</div>
+</div>
+{% endif %}
+</div>
+
+</div>
+
+{% endblock content %}
