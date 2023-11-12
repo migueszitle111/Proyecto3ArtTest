@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from django.contrib.postgres import search 
 from django.core.paginator import Paginator
 import random
-from .models import Artwork, Collection
+from .models import Artwork, Collection, Artist
 from .forms import CollectionForm
 
 
@@ -151,3 +151,9 @@ def remove_collection(request, collection_id):
     collection = get_object_or_404(Collection, pk=collection_id, owner=request.user)
     collection.delete()
     return redirect('collections')
+
+
+def artist_artworks(request, artist_slug):
+    artist = get_object_or_404(Artist, slug=artist_slug)
+    artworks = Artwork.objects.filter(author=artist)
+    return render(request, 'collection/artist_artworks.html', {'artist': artist, 'artworks': artworks})

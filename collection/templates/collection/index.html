@@ -13,7 +13,16 @@
           <img src="{{ artwork.image_url }}" alt="{{ artwork.title }}" class="w-full h-3/4 object-cover">
         </a>
         <h2 class="text-xl font-semibold mt-2 truncate">{{ artwork.title }}</h2>
-        <p class="text-sm text-gray-600 truncate">Artista: {{ artwork.author.name }}</p>
+        <a href="{% url 'artist_artworks' artist_slug=artwork.author.slug %}" class="flex items-center space-x-2">
+          <p class="text-sm text-gray-600 truncate">
+            Artista:
+          </p>
+          <p
+            class="text-sm text-gray-600 hover:text-blue-500 truncate transform scale-100 hover:scale-110 transition-transform bg-slate-300">
+            {{artwork.author.name}}
+          </p>
+        </a>
+
         <p class="text-sm text-gray-600 truncate">Estilo: {{ artwork.style.name }}</p>
         <p class="text-sm text-gray-600 truncate">Género: {{ artwork.genre.name }}</p>
       </div>
