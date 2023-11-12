@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path("", views.index, name="index"),
     path("artwork/<int:artwork_id>", views.artwork, name="artwork"),
@@ -11,6 +12,10 @@ urlpatterns = [
     path("collections/", views.collections, name="collections"),
     path("collection_list/", views.collection_list, name="collection_list"),
     path("collection/add", views.collection_add, name="collection_add"),
-
+    path('collection/<int:collection_id>/', views.collection_detail, name='collection_detail'),
+    path('artwork/<int:artwork_id>/add-to-collection/', views.add_to_collection, name='add_to_collection'),
+    path('collection/<int:collection_id>/remove/<int:artwork_id>/', views.remove_from_collection, name='remove_from_collection'),
+    path('collection/<int:collection_id>/edit/', views.collection_edit, name='collection_edit'),
+    path('collection/remove/<int:collection_id>/', views.remove_collection, name='remove_collection'),
 
 ]

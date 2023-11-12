@@ -1,7 +1,6 @@
 {% extends "collection/base.html" %}
-
-
 {% block content %}
+
 <div class="flex justify-center md:mx-auto md:max-w-screen-2xl px-2  bg-slate-200">
   <div class="w-full md:w-3/4 lg:w-2/3">
     {% if artworks %}
@@ -18,7 +17,6 @@
         <p class="text-sm text-gray-600 truncate">Estilo: {{ artwork.style.name }}</p>
         <p class="text-sm text-gray-600 truncate">Género: {{ artwork.genre.name }}</p>
       </div>
-
       {% endfor %}
     </div>
     <div hx-get="{% url 'random_artworks' %}" hx-trigger="revealed" hx-swap="beforeend" hx-boost>

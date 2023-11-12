@@ -1,12 +1,25 @@
 {% for collection in collections %}
-            <tr>
-              <td class="whitespace-nowrap py-4 pl-4
-                        pr-3 text-sm font-medium 
-                        text-gray-900 sm:pl-0">{{collection.name}}</td>
-              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{collection.description}}</td>
-              <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Editar<span class="sr-only">
-                                        , {{collection.name}}</span></a>
-              </td>
-            </tr>
+<tr class="hover:bg-gray-100">
+  <td class="py-2 px-4 text-sm font-medium text-gray-900">{{collection.name}}</td>
+  <td class="py-2 px-4 text-sm text-gray-500">{{collection.description}}</td>
+  <td class="py-2 px-4 text-right text-sm font-medium">
+    <a href="{% url 'collection_detail' collection.id %}" class="text-indigo-600 hover:text-indigo-900">Ver
+      pinturas<span class="sr-only">, {{collection.name}}</span></a>
+  </td>
+  <td class="py-2 px-4 text-right text-sm font-medium">
+    <a href="{% url 'collection_edit' collection.id %}" class="text-indigo-600 hover:text-indigo-900">Editar<span
+        class="sr-only">, {{collection.name}}</span></a>
+  </td>
+  <td class="py-2 px-4 text-right text-sm font-medium">
+    <a href="{% url 'remove_collection' collection.id %}" class="text-indigo-600 hover:text-indigo-900">
+      <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded inline-flex items-center">
+        <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <path
+            d="M14.348 14.849a1.2 1.2 0 01-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 01-1.697-1.697L8.282 10l-3.03-2.651a1.2 1.2 0 111.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 111.697 1.697L11.716 10l3.031 2.651a1.2 1.2 0 010 1.697z" />
+        </svg>
+        <span class="text-sm">Eliminar</span>
+      </button>
+    </a>
+  </td>
+</tr>
 {% endfor %}
