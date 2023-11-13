@@ -1,14 +1,11 @@
 {% extends "collection/base.html" %}
-
 {% block content %}
-<div class="flex justify-center items-center md:mx-auto md:max-w-screen-2xl px-2 bg-slate-200 h-screen">
+<div class="flex justify-center items-center md:mx-auto md:max-w-screen-2xl px-2 bg-slate-200 ">
     <div class="w-full md:w-3/4 lg:w-2/3">
         <br>
         <h2 class="text-gray-900 text-2xl title-font font-medium mb-1 text-center">COLECCION</h2>
         <h2 class="text-sm title-font text-gray-500 tracking-widest text-center">{{ collection.name }}</h2>
-
         {% if artworks %}
-        <br>
         <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {% for artwork in artworks %}
             <div
