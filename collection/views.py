@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from django.contrib.postgres import search 
 from django.core.paginator import Paginator
 import random
-from .models import Artwork, Collection, Artist
+from .models import Artwork, Collection, Artist, Style, Genre
 from .forms import CollectionForm
 
 
@@ -67,9 +67,15 @@ def artwork(request, artwork_id):
 def index(request):
     artworks = list(Artwork.objects.all())
     random_works = []
+    
+    # Obtener estilos, géneros y autores
+    styles = Style.objects.all()
+    genres = Genre.objects.all()
+    authors = Artist.objects.all()
+
     if artworks:
         random_works = random.sample(artworks, 12)
-    return render(request, 'collection/index.html', {'artworks': random_works})
+    return render(request, 'collection/index.html', {'artworks': random_works, 'styles': styles, 'genres': genres, 'authors': authors})
 
 def random_artworks(request):
     artworks = list(Artwork.objects.all())
@@ -157,3 +163,15 @@ def artist_artworks(request, artist_slug):
     artist = get_object_or_404(Artist, slug=artist_slug)
     artworks = Artwork.objects.filter(author=artist)
     return render(request, 'collection/artist_artworks.html', {'artist': artist, 'artworks': artworks})
+
+def filter_artworks(request, category, subcategory):
+    if category == 'Gender':
+        artworks = Artwork.objects.filter(genre__name=subcategory)
+    elif category == 'Style':
+        artworks = Artwork.objects.filter(style__name=subcategory)
+    elif category == 'Author':
+        artworks = Artwork.objects.filter(author__name=subcategory)
+    else:
+        artworks = Artwork.objects.all()
+
+    return render(request, 'collection/filtered_artworks.html', {'artworks': artworks})

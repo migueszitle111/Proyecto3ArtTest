@@ -6,6 +6,7 @@
         <br>
         <h2 class="text-gray-900 text-2xl title-font font-medium mb-1 text-center">COLECCION</h2>
         <h2 class="text-sm title-font text-gray-500 tracking-widest text-center">{{ collection.name }}</h2>
+
         {% if artworks %}
         <br>
         <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -35,6 +36,8 @@
             </div>
             {% endfor %}
         </div>
+        {% else %}
+        <p class="text-center text-gray-500">No hay pinturas en esta colección.</p>
         {% endif %}
     </div>
 </div>

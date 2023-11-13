@@ -18,5 +18,7 @@ urlpatterns = [
     path('collection/<int:collection_id>/edit/', views.collection_edit, name='collection_edit'),
     path('collection/remove/<int:collection_id>/', views.remove_collection, name='remove_collection'),
     path('artist_artworks/<slug:artist_slug>/', views.artist_artworks, name='artist_artworks'),
+    path('filter/<str:category>/<str:subcategory>/', views.filter_artworks, name='filter_artworks'),
+
 
 ]

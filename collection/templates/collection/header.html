@@ -21,7 +21,7 @@
          </div>
          <div class="flex flex-1 items-center justify-center px-2 lg:ml-6 lg:justify-end">
             <div class="w-full max-w-lg lg:max-w-xs">
-               <form action="/artworks/search" method="GET" class="mb-3">
+               <form action="/artworks/search" method="GET" class="mb-0">
                   <label for="q" class="sr-only">Buscar</label>
                   <div class="relative">
                      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -37,9 +37,60 @@
                            sm:text-sm sm:leading-6" placeholder="Buscar obras de arte" type="search"
                         value="{{ query }}">
                   </div>
-
                </form>
+
             </div>
+            <div class="relative pl-3">
+               <button id="filterButton"
+                  class="text-black bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-2 py-2 inline-flex items-center relative">
+                  Filter
+                  <svg id="arrowDown" class="w-4 h-4 ml-2" aria-hidden="true" fill="none" stroke="currentColor"
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     <path id="arrowDownPath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                  <svg id="arrowUp" class="w-4 h-4 ml-2 hidden" aria-hidden="true" fill="none" stroke="currentColor"
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     <path id="arrowUpPath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 15l7-7 7 7"></path>
+                  </svg>
+               </button>
+
+               <!-- Dropdown menu -->
+               <div id="dropdownMenu" class="absolute z-10 mt-2 w-56 p-3 bg-white rounded-lg shadow-md hidden">
+                  <select id="dropdownDefault" name="dropdownDefault"
+                     class="w-full h-10 border-2 px-2 py-2 bg-white text-sm font-medium text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500 transition duration-300 appearance-none">
+                     <option value="All" selected="">Categorias</option>
+                     <optgroup label="Gender">
+                        {% for genre in genres %}
+                        <option value="{{ genre.name }}">{{ genre.name }}</option>
+                        {% endfor %}
+                     </optgroup>
+                     <optgroup label="Author">
+                        {% for author in authors %}
+                        <option value="{{ author.name }}">{{ author.name }}</option>
+                        {% endfor %}
+                     </optgroup>
+                     <optgroup label="Style">
+                        {% for style in styles %}
+                        <option value="{{ style.name }}">{{ style.name }}</option>
+                        {% endfor %}
+                     </optgroup>
+                  </select>
+               </div>
+
+               <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                  <!-- Ícono de flecha hacia abajo -->
+                  <svg id="arrowIcon" class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor"
+                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                     <path id="arrowDownPath" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 9l-7 7-7-7"></path>
+                     <path id="arrowUpPath" class="hidden" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" d="M5 15l7-7 7 7"></path>
+                  </svg>
+               </div>
+            </div>
+
          </div>
          <div class="hidden lg:ml-4 lg:flex lg:items-center">
             {% if user.is_authenticated %}
@@ -67,3 +118,32 @@
          </div>
       </div>
 </nav>
+<script>
+
+   const filterButton = document.getElementById('filterButton');
+   const dropdownMenu = document.getElementById('dropdownMenu');
+   const arrowDownPath = document.getElementById('arrowDownPath');
+   const arrowUpPath = document.getElementById('arrowUpPath');
+   const dropdownDefault = document.getElementById('dropdownDefault');
+
+   // Función para redirigir al filtrar
+   const redirectToFilter = () => {
+      const selectedCategory = dropdownDefault.options[dropdownDefault.selectedIndex].parentNode.label;
+      const selectedSubcategory = dropdownDefault.value;
+      window.location.href = `/filter/${selectedCategory}/${selectedSubcategory}/`;
+      redirectToFilter();
+   };
+
+   // Evento de clic en el botón de filtro
+   filterButton.addEventListener('click', () => {
+      dropdownMenu.classList.toggle('hidden');
+      arrowDownPath.classList.toggle('hidden');
+      arrowUpPath.classList.toggle('hidden');
+   });
+
+   // Evento de cambio en el menú desplegable
+   dropdownDefault.addEventListener('change', () => {
+      // Redirige al filtrar al cambiar la opción
+      redirectToFilter();
+   });
+</script>
